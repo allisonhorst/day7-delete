@@ -1,0 +1,60 @@
+---
+title: "day7 delete"
+format: html
+editor: visual
+---
+
+```{r}
+library(tidyverse)
+library(palmerpenguins)
+```
+
+## Data wrangling refresher
+
+1.  Starting from penguins, write a single piped sequence in which you:
+
+    -   Only include penguins at Dream and Biscoe Islands
+
+    -   Remove the year and sex variables
+
+    -   Add a new column body_mass_kg with penguin mass converted from g to kg
+
+    -   Rename the island variable to location
+
+    ```{r}
+    penguins |> 
+      filter(island %in% c("Dream", "Biscoe")) |> 
+      select(-year, -sex) |> 
+      mutate(body_mass_kg = body_mass_g / 1000) |> 
+      rename(location = island)
+    ```
+
+2.  Starting from penguins, write a single piped sequence to:
+
+    -   Limit to Adelie penguins
+
+    -   Remove any observations where flipper_length_mm is NA (!is.na()) or drop_na)
+
+    -   Group the data by sex
+
+    -   Create a summary table that contains the mean, standard deviation and sample size of flipper lengths for male and female Adelie penguins.
+
+```{r}
+adelie_summary <- penguins |> 
+  filter(species == "Adelie") |> 
+  drop_na(flipper_length_mm) |> 
+  group_by(sex) |> 
+  summarize(mean_flipper_length = mean(flipper_length_mm),
+            sd_flipper_length = sd(flipper_length_mm),
+            sample_size = n())
+  
+```
+
+```{r}
+penguins |> 
+  group_by(species, island, sex) |> 
+  summarize(sample_size = n())
+
+# Count is just wrapping together group_by + summarize + n() to get counts of observations.
+penguins |> count(species, island, sex)
+```
