@@ -58,3 +58,38 @@ penguins |>
 # Count is just wrapping together group_by + summarize + n() to get counts of observations.
 penguins |> count(species, island, sex)
 ```
+
+```{r}
+animals <- data.frame(
+  stringsAsFactors = FALSE,
+          location = c("lagoon", "bluff", "creek", "oaks", "bluff"),
+           species = c("bobcat", "coyote", "fox", "squirrel", "bobcat"),
+          maturity = c("adult", "juvenile", "adult", "juvenile", "adult")
+)
+```
+
+```{r}
+sites <- data.frame(
+  stringsAsFactors = FALSE,
+          location = c("beach", "lagoon", "bluff", "oaks"),
+    full_site_name = c("Goleta Beach","UCSB Lagoon",
+                       "Ellwood Mesa","Fremont Campground"),
+      jurisdiction = c("SB City", "UCSB", "SB City", "USFS")
+)
+```
+
+Full join:
+
+Uses full_join()
+
+```{r}
+full_join_example <- full_join(animals, sites)
+```
+
+```{r}
+left_join_example <- left_join(animals, sites)
+```
+
+```{r}
+inner_join_example <- inner_join(animals, sites)-
+```
